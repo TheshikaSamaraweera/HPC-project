@@ -3,6 +3,7 @@
 #include <string.h>
 #include <curl/curl.h>
 #include <cjson/cJSON.h>
+#include "metrics.h"
 
 #define MAX_INPUT 1024
 #define API_KEY ""
@@ -96,6 +97,9 @@ void chat_request(const char *user_input) {
 
 int main() {
     char input[MAX_INPUT];
+    Metrics metrics = {0};
+    struct timespec start;
+    double elapsed;
 
     printf("🤖 C Chatbot (type 'exit' to quit)\n\n");
 
@@ -106,8 +110,14 @@ int main() {
 
         if (strcmp(input, "exit") == 0) break;
 
+        start_timer(&start);
         chat_request(input);
+        elapsed = end_timer(start);
+
+        update_metrics(&metrics, elapsed);
+        printf("⏱️ Time: %.3f seconds\n", elapsed);
     }
 
+    print_summary(metrics);
     return 0;
 }

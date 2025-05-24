@@ -1,17 +1,19 @@
+import time
 from openai import OpenAI
 
+# Initialize OpenAI client
 client = OpenAI(
-  base_url="https://openrouter.ai/api/v1",
-  api_key="",
+    base_url="https://openrouter.ai/api/v1",
+    api_key="",
 )
 
-# Optional headers for OpenRouter usage stats (optional but recommended)
+# Optional headers
 extra_headers = {
-    "HTTP-Referer": "http://localhost",  # Or your project URL
+    "HTTP-Referer": "http://localhost",
     "X-Title": "Terminal Chatbot",
 }
 
-# Initialize conversation history
+# System message
 messages = [
     {
         "role": "system",
@@ -24,25 +26,51 @@ messages = [
     }
 ]
 
+# Initialize metrics
+metrics = {
+    "total_prompts": 0,
+    "total_time": 0.0,
+}
+
+print("🤖 Chatbot is ready! Type 'exit' to stop.\n")
+
 # Chat loop
-print("Chatbot is ready! Type 'exit' to stop.\n")
 while True:
     user_input = input("You: ")
     if user_input.lower() in ["exit", "quit"]:
         break
 
-    # Add user message
     messages.append({"role": "user", "content": user_input})
 
-    # Get response from model
+    # Start timer
+    start = time.time()
+
+    # API call
     response = client.chat.completions.create(
-        model="deepseek/deepseek-r1:free",  # or  deepseek/deepseek-chat
+        model="deepseek/deepseek-r1:free",
         messages=messages,
         extra_headers=extra_headers
     )
 
-    reply = response.choices[0].message.content
-    print("Bot:", reply)
+    # End timer and calculate elapsed time
+    elapsed = time.time() - start
 
-    # Add assistant's reply to the message history
+    reply = response.choices[0].message.content
+    print("🤖 Bot:", reply)
+    print(f"⏱️ Time: {elapsed:.3f} seconds\n")
+
+    # Add reply to history
     messages.append({"role": "assistant", "content": reply})
+
+    # Update metrics
+    metrics["total_prompts"] += 1
+    metrics["total_time"] += elapsed
+
+# Summary after chat ends
+print("\n📊 Chatbot Performance Summary 📊")
+print(f"Total Prompts: {metrics['total_prompts']}")
+print(f"Total Time: {metrics['total_time']:.3f} seconds")
+if metrics["total_prompts"] > 0:
+    avg_time = metrics["total_time"] / metrics["total_prompts"]
+    print(f"Average Time per Prompt: {avg_time:.3f} seconds")
+print()
