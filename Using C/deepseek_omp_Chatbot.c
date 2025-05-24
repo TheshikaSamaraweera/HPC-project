@@ -96,33 +96,6 @@ void chat_request(const char *user_input) {
 }
 
 int main() {
-    Metrics metrics = {0};
-    struct timespec start;
-    double elapsed;
-
-    // Define static list of prompts
-    const char *prompts[] = {
-        "What is capital of Sri Lanka?",
-        "Answer of 5+8+4-5/8*4",
-        "How many zeros for one million?",
-        "What is the capital of France?",
-        "Who is the founder of the computer?"
-    };
-    int num_prompts = sizeof(prompts) / sizeof(prompts[0]);
-
-    printf("🤖 C Chatbot – Static Prompt Mode\n\n");
-
-    for (int i = 0; i < num_prompts; i++) {
-        printf("🟢 Prompt %d: %s\n", i + 1, prompts[i]);
-
-        start_timer(&start);
-        chat_request(prompts[i]);
-        elapsed = end_timer(start);
-
-        update_metrics(&metrics, elapsed);
-        printf("⏱️ Time: %.3f seconds\n\n", elapsed);
-    }
-
-    print_summary(metrics);
+    run_parallel_chatbot();
     return 0;
 }
