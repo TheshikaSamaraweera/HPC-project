@@ -6,7 +6,7 @@
 #include "metrics.h"
 
 #define MAX_INPUT 1024
-#define API_KEY ""
+#define API_KEY "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"
 #define API_URL "https://openrouter.ai/api/v1/chat/completions"
 
 
