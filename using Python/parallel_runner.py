@@ -34,8 +34,12 @@ class ParallelPromptRunner:
             print(f"\nProcessing Batch {i} (Size: {len(batch)})")
             batch_start = time.time()
 
+
+# start parrall region
             with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
+                #Each prompt is submitted to a thread (pragma omp for)
                 futures = [executor.submit(self.send_prompt_with_retry, prompt) for prompt in batch]
+                #waits for all tasks to finish(pragama omp barrier)
                 for future in as_completed(futures):
                     prompt, result = future.result()
                     print(f"\n Prompt: {prompt}")

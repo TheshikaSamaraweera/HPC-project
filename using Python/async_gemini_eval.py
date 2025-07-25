@@ -3,7 +3,7 @@ import httpx
 import time
 import json
 
-API_KEY = "AIzaSyByciXb0TLK334dVJm5IDeYPEnzzkhcAW8"  # Replace this with your real key
+API_KEY = ""
 URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={API_KEY}"
 HEADERS = {"Content-Type": "application/json"}
 
@@ -56,14 +56,14 @@ async def main(prompts):
             total_time += duration
             successful += 1
         else:
-            print("    ❌ Failed:", response, "\n")
+            print("  Failed:", response, "\n")
 
     if successful:
-        print("✅ Total Prompts:", successful)
+        print("Total Prompts:", successful)
         print(f" Total Time: {total_time:.2f}s")
         print(f" Avg Time per Prompt: {total_time/successful:.2f}s")
     else:
-        print("❌ No successful responses.")
+        print("No successful responses.")
 
 if __name__ == "__main__":
     with open("prompt.txt", "r") as f:

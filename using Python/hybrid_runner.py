@@ -60,8 +60,25 @@ if __name__ == "__main__":
 
     results, times = threaded_prompt_handler(my_prompts, thread_count=4)
 
+    # Local average
     if times:
         avg_time = sum(times) / len(times)
         print(f"[Process {rank}] Average Execution Time: {avg_time:.3f} sec for {len(times)} successful prompts")
     else:
         print(f"[Process {rank}]  No successful executions to calculate average time.")
+
+    # Gather all times at rank 0
+    all_times = comm.gather(times, root=0)
+
+    # Rank 0 computes total and average
+    if rank == 0:
+        combined_times = [t for sublist in all_times for t in sublist]
+        total_prompts = len(combined_times)
+        if total_prompts > 0:
+            total_time = sum(combined_times)
+            total_avg_time = total_time / total_prompts
+            print(f"\n[Total] All prompts executed: {total_prompts}")
+            print(f"[Total] Total Execution Time: {total_time:.3f} sec")
+            print(f"[Total] Overall Average Time per Prompt: {total_avg_time:.3f} sec")
+        else:
+            print("[Total] No successful prompts to report.")

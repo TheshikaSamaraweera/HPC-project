@@ -28,10 +28,10 @@ def process_prompts(prompts):
             response = send_prompt(prompt)
             elapsed = time.time() - start_time
             results.append((prompt, response, elapsed))
-            print(f"[Rank {rank}] ✅ Response: {response} | Time: {elapsed:.2f}s")
+            print(f"[Rank {rank}]  Response: {response} | Time: {elapsed:.2f}s")
         except Exception as e:
             results.append((prompt, f"[ERROR] {e}", None))
-            print(f"[Rank {rank}] ❌ Error: {e}")
+            print(f"[Rank {rank}] Error: {e}")
     return results
 
 if __name__ == "__main__":
@@ -42,7 +42,7 @@ if __name__ == "__main__":
     else:
         prompt_chunks = None
 
-    # Scatter prompt chunks to all processes
+    # sends each process its respective chunk of prompts.
     local_prompts = comm.scatter(prompt_chunks, root=0)
 
     # Each process handles its local prompts
@@ -63,7 +63,7 @@ if __name__ == "__main__":
             print(f"   Response: {response}")
             print(f"   Time: {t:.2f}s" if t is not None else "   Time: [ERROR]")
 
-        print(f"\n✅ Total processed: {len(flat_results)}")
+        print(f"\nTotal processed: {len(flat_results)}")
         print(f"  Total execution time (sum of individual calls): {total_time:.2f}s")
         print(f" Average response time per prompt: {avg_time:.2f}s")
 
