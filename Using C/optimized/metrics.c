@@ -1,6 +1,6 @@
-// metrics.c
 #include "metrics.h"
 #include <stdio.h>
+#include <time.h>
 
 void start_timer(struct timespec *start) {
     clock_gettime(CLOCK_MONOTONIC, start);
@@ -17,8 +17,13 @@ void update_metrics(Metrics *metrics, double elapsed_time) {
     metrics->total_time += elapsed_time;
 }
 
+void merge_metrics(Metrics *global, const Metrics *local) {
+    global->total_prompts += local->total_prompts;
+    global->total_time += local->total_time;
+}
+
 void print_summary(Metrics metrics) {
-    printf("\n📊 Chatbot Performance Summary 📊\n");
+    printf("\nChatbot Performance Summary\n");
     printf("Total Prompts: %d\n", metrics.total_prompts);
     printf("Total Time: %.3f seconds\n", metrics.total_time);
     if (metrics.total_prompts > 0)
