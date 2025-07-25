@@ -1,0 +1,6 @@
+# .gitignore
+# Ignore files with API keys
+api_key.txt
+.env
+*.secret
+config/keys/*

@@ -1,0 +1,17 @@
+
+opt_hybrid:18319 terminated with signal 11 at PC=7e000a856e35 SP=7ffd241e0a50.  Backtrace:
+/lib/x86_64-linux-gnu/libmpich.so.12(+0x256e35)[0x7e000a856e35]
+/lib/x86_64-linux-gnu/libmpich.so.12(+0x212843f)[0x7e000c72843f]
+/lib/x86_64-linux-gnu/libmpich.so.12(+0x23fb85)[0x7e000a83fb85]
+/lib/x86_64-linux-gnu/libmpich.so.12(+0x23fc7f)[0x7e000a83fc7f]
+/lib/x86_64-linux-gnu/libmpich.so.12(+0x2537c7)[0x7e000a8537c7]
+/lib/x86_64-linux-gnu/libmpich.so.12(+0x20c561)[0x7e000a80c561]
+/lib/x86_64-linux-gnu/libmpich.so.12(+0x19de8b)[0x7e000a79de8b]
+/lib/x86_64-linux-gnu/libmpich.so.12(+0x1f1a6d)[0x7e000a7f1a6d]
+/lib/x86_64-linux-gnu/libmpich.so.12(+0x1f1bdc)[0x7e000a7f1bdc]
+/lib/x86_64-linux-gnu/libmpich.so.12(+0x1f1e64)[0x7e000a7f1e64]
+/lib/x86_64-linux-gnu/libmpich.so.12(MPI_Gatherv+0x5be)[0x7e000a65973e]
+./opt_hybrid(+0x1b5c)[0x63f6dad02b5c]
+/lib/x86_64-linux-gnu/libc.so.6(+0x29d90)[0x7e000a229d90]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0x80)[0x7e000a229e40]
+./opt_hybrid(+0x1405)[0x63f6dad02405]
